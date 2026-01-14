@@ -1,0 +1,13 @@
+---
+title: "ISSS608-VAA Jan 2026 Term"
+author: "Erica Chan"
+---
+
+This website showcases my coursework for **ISSS608-Visual Analytics and Applications**.
+
+::: {.callout-tip title="Navigation bar dropdowns"}
+-   **Hands-on Exercise**: Weekly individual exercises for learning
+-   **In-Class Exercise**: Individual in-class exercises complementing hands-on exercises for that week
+-   **Take-home Exercise**: Individual take-home assignments
+-   **Visual Analytics Project:** Group project assignment
+:::
