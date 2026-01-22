@@ -23,11 +23,12 @@ In this exercise, beside tidyverse, four R packages will be used. They are:
 -   ggthemes: an R package provides some extra themes, geoms, and scales for ‘ggplot2’.
 -   hrbrthemes: an R package provides typography-centric themes and theme components for ggplot2.
 -   patchwork: an R package for preparing composite figure created using ggplot2.
+-   extrafont: imports system fonts into the R database to make them available for use in packages like hrbrthemes
 
 The code chunk below will check whether these packages have been installed and also will load them onto the working R environment.
 
 ```{r}
-pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)
+pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse, extrafont)
 ```
 
 ### Importing data
