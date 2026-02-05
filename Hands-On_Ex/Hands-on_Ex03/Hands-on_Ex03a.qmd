@@ -275,7 +275,6 @@ girafe(
 ```
 
 ::: callout-note
-
 -   Interactivity: Web document link with a data object will be displayed on the web browser upon mouse click.
 -   click actions must be a **string column in the dataset** containing **valid javascript instructions**.
 :::
@@ -383,7 +382,7 @@ p <- ggplot(data=exam_data,
 ggplotly(p)
 ```
 
-###  Coordinated Multiple Views with plotly
+### Coordinated Multiple Views with plotly
 
 The creation of a coordinated linked plot by using plotly involves three steps:
 
@@ -457,5 +456,5 @@ crosstalk::bscols(gg,
     -   These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk.
     -   In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.
 -   *bscols()* is a helper function of **crosstalk** package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document.
-    -    **Warning:** This will bring in all of Bootstrap!.
+    -   **Warning:** This will bring in all of Bootstrap!.
 :::

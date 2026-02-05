@@ -163,7 +163,7 @@ ggplotly(gg)
 -   the warning "Ignoring unknown aesthetics: frame" is because the *frame* argument is used by ggplotly(), not by ggplot2
 :::
 
-###  Building an animated bubble plot: `plot_ly()` method
+### Building an animated bubble plot: `plot_ly()` method
 
 In this sub-section, we will create an animated bubble plot by using `plot_ly()` method.
 
