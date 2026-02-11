@@ -45,6 +45,10 @@ pacman::p_load(readxl, gifski, gapminder,
                plotly, gganimate, tidyverse)
 ```
 
+```{r}
+remotes::install_github("wilkelab/ungeviz")
+```
+
 ### Importing the data
 
 In this hands-on exercise, the *Data* worksheet from *GlobalPopulation* Excel workbook will be used.
