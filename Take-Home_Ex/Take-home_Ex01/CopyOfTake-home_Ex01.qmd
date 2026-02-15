@@ -1,0 +1,356 @@
+---
+title: "Take-Home Exercise 1: Creating enlightening and truthful data visualisations"
+format: html
+author: "Erica Chan"
+date: "02-04-2026"
+date-modified: "last-modified"
+number-sections: true
+---
+
+## Overview
+
+## Data
+
+The [dataset](https://www.sciencedirect.com/science/article/pii/S2352340925001702) used for this exercise is the results of a survey on factors affecting learning outcomes of students at the University of Education - Vietnam National University, Hanoi. The respondents consist of 2170 students and alumni from March to June 2023.
+
+The data can be classified into two groups of variables as follows:
+
+1.  Demographic information of students (e.g., gender, parents qualifications and occupations)
+2.  Subjective perceptions and assessments of the learning environment (e.g., assessment the quality of university facilities, lecturers or training curriculum)
+
+These variables can be assessed against their grade point average, which has been grouped into 5 bands in the dataset.
+
+### R Packages
+
+```{r}
+pacman::p_load(readxl, gtsummary, knitr, DT,  HH, patchwork, 
+               ggthemes, rcompanion, tidyverse)
+```
+
+## Data Wrangling
+
+### Import Data
+
+The f
+
+```{r}
+student <- read_excel('data/student.xlsx')
+
+```
+
+```{r}
+summary(student)
+```
+
+From the above output, there are no missing values in the data. The ranges of data are also within expectations based on the codebook which maps the values (1-5) to the corresponding survey answers, indicating that there are no errors in data entry of the survey results.
+
+### Replacing values
+
+For interpretability of results, we will rename the values in the dataset to their corresponding survey answers. The following code chunk uses `mutate()` and `factor()` from the **tidyverse** to recode the numbers to the text equivalents. We also correct what appears to be a typo in the column names using `rename()` from the **dplyr** package.
+
+```{r}
+student <- student %>% 
+  rename(
+    Time_SocialMedia = "Time_SocicalMedia",
+    InfluenceOf_Friends = "InfuenceF_Friends",
+    Facilities_Uni = "Facilitie_Uni"
+  ) 
+
+student_l <- student %>%
+  mutate (
+    Year = factor(Year, levels = 1:5, 
+                  labels = c("First-year", "Second-year", "Third-year", "Fourth-year", "Graduated")),
+    Gender = factor(Gender, levels = 1:2, 
+                    labels = c("Male", "Female")),
+    across(c(Policy_Stu, Minority_Stu, Poor_Stu), 
+           ~factor(.x, levels = 1:2, labels = c("Yes", "No"))),
+        across(c(Father_Edu, Mother_Edu),
+           ~factor(.x, levels = 1:6, 
+                   labels = c("Primary school", "Secondary school", "High school", "College school", "University/graduate", "Other"))),
+    across(c(Father_Occupation, Mother_Occupation),
+           ~factor(.x, levels = 1:5, 
+                   labels = c("Government employee", "Self-employment", "Freelance", 
+                              "Other", "Not public"))),
+    across(c(Time_Friends, Time_SocialMedia),
+           ~factor(.x, levels = 1:5, 
+                   labels = c("Under 1h", "1-2h", "2-3h", "3-4h", "Over 4h"))),
+    Time_Studying = factor(Time_Studying, levels = 1:5, 
+                           labels = c("Under 2h", "2-4h", "4-6h", "6-8h", "Over 8h")),
+    GPA = factor(GPA, levels = 1:5, 
+                  labels = c("Under 2.0", "2.0-2.5", "2.5-3.2", "3.2-3.6", "Over 3.6")),
+    across(c(Adapt_Learning_Uni, Study_Methods, SupportOf_Uni, SupportOf_Lec, Facilities_Uni, Quality_Lecturer, TrainingCurriculum, Competitive_Class, InfluenceOf_Friends),
+           ~factor(.x, levels = 1:5, 
+                   labels = c("Not at all", "Little", "Moderate", "Quite", "Very")))
+  ) %>%
+  relocate(GPA, .after=last_col())
+```
+
+The following code chunk prints uses `tbl_summary` from **gtsummary** to view a summary table of results from the survey, specifically the frequency and proportion of each response.
+
+::: {style="height: 400px; overflow-y: auto;"}
+```{r}
+tbl_wide_summary(student_l)
+```
+:::
+
+### Remove unnecessary values in Year
+
+As seen in the table above, no students from first- or second-year responded to the survey. Hence, we will remove these from the dataset as they are not relevant using `droplevels()`
+
+```{r}
+student_l <-droplevels(student_l)
+
+tbl_wide_summary(student_l, include = Year)
+```
+
+```{r}
+unique_l <- lapply(student_l, unique)
+max_len <- max(sapply(unique_l, length))
+
+# Pad and bind
+result_table <- do.call(rbind, lapply(unique_l, function(x) {
+  c(x, rep(NA, max_len - length(x)))
+}))
+
+print(result_table)
+```
+
+## Demographic visualisations
+
+### Student Characteristics
+
+### Parent Characteristics
+
+### 
+
+## Perceptions of learning environment
+
+### Data preparation
+
+First, we create the table *perceptions* to count the number of occurences of each response per question. Using `pivot_longer()`, the variables are gathered into a single column to allow counting by group for each variable-response pair. `count()` will count the occurence of each pair, and `pivot_wider()` converts the final result to a table to display the count of each response for each
+
+```{r}
+perceptions <- student_l %>%
+  select(Adapt_Learning_Uni, Study_Methods, SupportOf_Uni, SupportOf_Lec, Facilities_Uni, Quality_Lecturer, TrainingCurriculum, Competitive_Class, InfluenceOf_Friends) %>%
+  pivot_longer(cols = everything(), names_to = "Variable", values_to = "Answer") %>%
+  count(Variable, Answer) %>%
+  pivot_wider(names_from = Answer, values_from = n, values_fill = 0)
+
+kable(perceptions)
+```
+
+We will also add a column *Type* which will differentiate personal factors (i.e., ability to adapt to the university learning environment, studying methods, competition within the class, and friends) from university factors (e.g., level of support from the university or quality of uni lecturers).
+
+```{r}
+Type= c("Personal","Personal","Uni", "Personal","Uni", "Personal", "Uni", "Uni", "Uni")
+
+perceptions2 <- cbind(perceptions, Type)
+```
+
+### Visualisation
+
+```{r}
+#| fig-width: 8
+
+likert(Variable ~.| Type,
+       data=perceptions2,
+       layout=c(1,2),
+       scales=list(y=list(relation="free")),
+       between=list(y=1),
+       strip.left=strip.custom(bg="gray97"),
+       strip=FALSE,
+       ylab=NULL,
+       as.percent=TRUE,
+       positive.order = TRUE,
+       main = list("Perceptions of Learning Environment Impact on GPA",
+                   x=unit(.55, "npc")), 
+       sub = list("Impact Rating",x=unit(.57, "npc"))
+       )
+```
+
+## Visualising Associations with GPA
+
+### Calculating Chi-Squared Value
+
+First, we will create a contingency table between the
+
+```{r}
+corr_vars <- student_l %>%
+  select(-GPA) %>%
+  colnames()
+
+perform_chi_test <- function(variable) {
+  # Create a contingency table
+  contingency_table <- table(student_l$GPA, student_l[[variable]])
+  
+  # Perform the chi-squared test
+  chi_result <- chisq.test(contingency_table)
+  
+  # Return relevant results
+  return(data.frame(
+    Variable = variable,
+    Chi_Squared = chi_result$statistic,
+    DF = chi_result$parameter,
+    P_Value = chi_result$p.value
+  ))
+}
+
+get_chisq_residuals <- function(variable) {
+  # Create a contingency table
+  contingency_table <- table(student_l$GPA, student_l[[variable]])
+  
+  # Perform the chi-squared test
+  chi_result <- chisq.test(contingency_table)
+  
+  # Return relevant results
+  return(chi_result$residuals)
+}
+```
+
+```{r}
+#| warning: false
+
+# Apply the function to all specified variables using lapply
+chisq_list <- lapply(corr_vars, perform_chi_test)
+
+# Combine the results into a single data frame
+chisq_df <- do.call(rbind, chisq_list)
+```
+
+::: panel-tabset
+#### Visualisation
+
+```{r}
+#| fig-height: 7
+#| fig-width: 8
+#| code-fold: true
+
+chisq_plot_df <- chisq_df %>%
+  mutate(
+    Significance = case_when(
+      P_Value < 0.01 ~ "p < 0.01",
+      P_Value < 0.05 ~ "p < 0.05",
+      TRUE           ~ "p >= 0.05"
+    ),
+    Significance = factor(Significance, levels = c("p < 0.01", "p < 0.05", "p >= 0.05"))
+  )
+
+ggplot(chisq_plot_df, aes(x = reorder(Variable, Chi_Squared), y = Chi_Squared, fill = Significance)) +
+  geom_col() + 
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "p < 0.01"   = "darkred", 
+    "p < 0.05"   = "orange", 
+    "p >= 0.05"  = "grey"  
+  )) +
+  labs(
+    title = "Chi-Square Values by Variable",
+    subtitle = "Higher values indicate stronger association with the target",
+    x = "",
+    y = "Chi-Square Statistic",
+    fill = "Significance Level"
+  ) +
+  theme_economist()
+```
+
+#### Datatable
+
+```{r}
+ DT::datatable(chisq_df, rownames=FALSE) 
+```
+:::
+
+### Calculating Strength of Association
+
+```{r}
+predictors <- student_l %>%
+  select(-GPA) %>%
+  colnames()
+
+get_cramersv <- function(variable) {
+  cramerV(student_l[[variable]], student_l[["GPA"]])
+}
+
+cramersv <- sapply(predictors, get_cramersv)
+
+assoc_df <- data.frame(
+  Variable = names(cramersv),
+  Association = as.numeric(cramersv)
+) %>%
+  mutate(Variable = str_remove(Variable, "\\.Cramer V")) %>%
+  arrange(desc(Association))
+
+datatable(assoc_df)
+```
+
+## Visualising Correlation
+
+### Calculating Spearman's Rank Correlation
+
+```{r}
+perform_src_test <- function(variable) {
+  # Perform the spearman's rank correlation test
+  src_result <- cor.test(as.numeric(student_l[[variable]]), as.numeric(student_l$GPA), method='spearman')
+  
+  # Return relevant results
+  return(data.frame(
+    Variable = variable,
+    Rho = src_result$estimate,
+    P_Value = src_result$p.value
+  ))
+}
+```
+
+```{r}
+#| warning: false
+# Apply the function to all specified variables using lapply
+src_list <- lapply(corr_vars, perform_src_test)
+
+# Combine the results into a single data frame
+src_df <- do.call(rbind, src_list)
+```
+
+#### Visualisation
+
+::: panel-tabset
+```{r}
+#| fig-height: 7
+#| fig-width: 8
+#| code-fold: true
+
+src_plot_df <- src_df %>%
+  mutate(
+    Significance = case_when(
+      P_Value < 0.01 ~ "p < 0.01",
+      P_Value < 0.05 ~ "p < 0.05",
+      TRUE           ~ "p >= 0.05"
+    ),
+    Significance = factor(Significance, levels = c("p < 0.01", "p < 0.05", "p >= 0.05"))
+  )
+
+ggplot(src_plot_df, aes(x = reorder(Variable, Rho), y = Rho, fill = Significance)) +
+  geom_col() + 
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "p < 0.01"   = "darkred", 
+    "p < 0.05"   = "orange", 
+    "p >= 0.05"  = "grey"  
+  )) +
+  labs(
+    title = "Spearman Rank Correlation Values by Variable",
+    subtitle = "Higher values indicate monotonic relationship with GPA",
+    x = "",
+    y = "Chi-Square Statistic",
+    fill = "Significance Level"
+  ) +
+  theme_economist()
+```
+
+#### Datatable
+:::
+
+## References
+
+### Data Source
+
+Ngoc Le, Diep (2024), “Dataset about VNU students”, Mendeley Data, V1, doi: 10.17632/23ppcdbmhc.1

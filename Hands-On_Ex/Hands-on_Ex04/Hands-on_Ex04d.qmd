@@ -214,7 +214,7 @@ p <- ggplot(df, aes(x = Positive, y = rate)) +
 p
 ```
 
-###  Interactive Funnel Plot: plotly + ggplot2
+### Interactive Funnel Plot: plotly + ggplot2
 
 The funnel plot created using ggplot2 functions can be made interactive with `ggplotly()` of **plotly** r package.
 
