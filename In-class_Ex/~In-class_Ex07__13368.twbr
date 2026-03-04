@@ -1,0 +1,897 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20253.26.0109.0333                               -->
+<workbook original-version='18.1' source-build='2025.3.2 (20253.26.0109.0333)' source-platform='win' version='18.1' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelExtractV2 />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
+    <WindowsPersistSimpleIdentifiers />
+    <ZoneBackgroundTransparency />
+  </document-format-change-manifest>
+  <repository-location id='In-class_Ex07_17722591420460' path='/workbooks' revision='1.1' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='By air (Visitor arrivals by air-raw)' inline='true' name='federated.1xy1qz70bmd6gl1f6h5oj03ilg75' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='Visitor arrivals by air-raw' name='excel-direct.0jy1d980ulqiix14hj36v14wcxzx'>
+            <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='C:/Users/erica/Downloads/Visitor arrivals by air-raw.xlsx' interpretationMode='0' password='' server='' validate='no' workgroup-auth-mode='as-is' />
+          </named-connection>
+        </named-connections>
+        <relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='integer' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Visitor Arrivals: Air: Australia]' />
+            <value name='[Visitor Arrivals: Air: Bangladesh]' />
+            <value name='[Visitor Arrivals: Air: Belgium &amp; Luxembourg]' />
+            <value name='[Visitor Arrivals: Air: Brunei]' />
+            <value name='[Visitor Arrivals: Air: CIS]' />
+            <value name='[Visitor Arrivals: Air: Canada]' />
+            <value name='[Visitor Arrivals: Air: China]' />
+            <value name='[Visitor Arrivals: Air: Finland]' />
+            <value name='[Visitor Arrivals: Air: France]' />
+            <value name='[Visitor Arrivals: Air: Germany]' />
+            <value name='[Visitor Arrivals: Air: Hong Kong SAR (China)]' />
+            <value name='[Visitor Arrivals: Air: India]' />
+            <value name='[Visitor Arrivals: Air: Indonesia]' />
+            <value name='[Visitor Arrivals: Air: Ireland]' />
+            <value name='[Visitor Arrivals: Air: Italy]' />
+            <value name='[Visitor Arrivals: Air: Japan]' />
+            <value name='[Visitor Arrivals: Air: Kuwait]' />
+            <value name='[Visitor Arrivals: Air: Malaysia]' />
+            <value name='[Visitor Arrivals: Air: Myanmar]' />
+            <value name='[Visitor Arrivals: Air: Netherlands]' />
+            <value name='[Visitor Arrivals: Air: New Zealand]' />
+            <value name='[Visitor Arrivals: Air: Pakistan]' />
+            <value name='[Visitor Arrivals: Air: Philippines]' />
+            <value name='[Visitor Arrivals: Air: Republic of South Africa]' />
+            <value name='[Visitor Arrivals: Air: Saudi Arabia]' />
+            <value name='[Visitor Arrivals: Air: South Korea]' />
+            <value name='[Visitor Arrivals: Air: Spain]' />
+            <value name='[Visitor Arrivals: Air: Sri Lanka]' />
+            <value name='[Visitor Arrivals: Air: Switzerland]' />
+            <value name='[Visitor Arrivals: Air: Taiwan]' />
+            <value name='[Visitor Arrivals: Air: Thailand]' />
+            <value name='[Visitor Arrivals: Air: USA]' />
+            <value name='[Visitor Arrivals: Air: United Arab Emirates]' />
+            <value name='[Visitor Arrivals: Air: United Kingdom]' />
+            <value name='[Visitor Arrivals: Air: Vietnam]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[By air].[Visitor Arrivals: Air: Australia]' />
+              <field name='[By air].[Visitor Arrivals: Air: Bangladesh]' />
+              <field name='[By air].[Visitor Arrivals: Air: Belgium &amp; Luxembourg]' />
+              <field name='[By air].[Visitor Arrivals: Air: Brunei]' />
+              <field name='[By air].[Visitor Arrivals: Air: CIS]' />
+              <field name='[By air].[Visitor Arrivals: Air: Canada]' />
+              <field name='[By air].[Visitor Arrivals: Air: China]' />
+              <field name='[By air].[Visitor Arrivals: Air: Finland]' />
+              <field name='[By air].[Visitor Arrivals: Air: France]' />
+              <field name='[By air].[Visitor Arrivals: Air: Germany]' />
+              <field name='[By air].[Visitor Arrivals: Air: Hong Kong SAR (China)]' />
+              <field name='[By air].[Visitor Arrivals: Air: India]' />
+              <field name='[By air].[Visitor Arrivals: Air: Indonesia]' />
+              <field name='[By air].[Visitor Arrivals: Air: Ireland]' />
+              <field name='[By air].[Visitor Arrivals: Air: Italy]' />
+              <field name='[By air].[Visitor Arrivals: Air: Japan]' />
+              <field name='[By air].[Visitor Arrivals: Air: Kuwait]' />
+              <field name='[By air].[Visitor Arrivals: Air: Malaysia]' />
+              <field name='[By air].[Visitor Arrivals: Air: Myanmar]' />
+              <field name='[By air].[Visitor Arrivals: Air: Netherlands]' />
+              <field name='[By air].[Visitor Arrivals: Air: New Zealand]' />
+              <field name='[By air].[Visitor Arrivals: Air: Pakistan]' />
+              <field name='[By air].[Visitor Arrivals: Air: Philippines]' />
+              <field name='[By air].[Visitor Arrivals: Air: Republic of South Africa]' />
+              <field name='[By air].[Visitor Arrivals: Air: Saudi Arabia]' />
+              <field name='[By air].[Visitor Arrivals: Air: South Korea]' />
+              <field name='[By air].[Visitor Arrivals: Air: Spain]' />
+              <field name='[By air].[Visitor Arrivals: Air: Sri Lanka]' />
+              <field name='[By air].[Visitor Arrivals: Air: Switzerland]' />
+              <field name='[By air].[Visitor Arrivals: Air: Taiwan]' />
+              <field name='[By air].[Visitor Arrivals: Air: Thailand]' />
+              <field name='[By air].[Visitor Arrivals: Air: USA]' />
+              <field name='[By air].[Visitor Arrivals: Air: United Arab Emirates]' />
+              <field name='[By air].[Visitor Arrivals: Air: United Kingdom]' />
+              <field name='[By air].[Visitor Arrivals: Air: Vietnam]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.0jy1d980ulqiix14hj36v14wcxzx' name='By air' table='[&apos;By air$&apos;]' type='table'>
+            <columns gridOrigin='A1:AJ313:no:A1:AJ313:0' header='yes' outcome='2'>
+              <column datatype='date' name='Date' ordinal='0' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Republic of South Africa' ordinal='1' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Canada' ordinal='2' />
+              <column datatype='integer' name='Visitor Arrivals: Air: USA' ordinal='3' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Bangladesh' ordinal='4' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Brunei' ordinal='5' />
+              <column datatype='integer' name='Visitor Arrivals: Air: China' ordinal='6' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Hong Kong SAR (China)' ordinal='7' />
+              <column datatype='integer' name='Visitor Arrivals: Air: India' ordinal='8' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Indonesia' ordinal='9' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Japan' ordinal='10' />
+              <column datatype='integer' name='Visitor Arrivals: Air: South Korea' ordinal='11' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Kuwait' ordinal='12' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Malaysia' ordinal='13' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Myanmar' ordinal='14' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Pakistan' ordinal='15' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Philippines' ordinal='16' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Saudi Arabia' ordinal='17' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Sri Lanka' ordinal='18' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Taiwan' ordinal='19' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Thailand' ordinal='20' />
+              <column datatype='integer' name='Visitor Arrivals: Air: United Arab Emirates' ordinal='21' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Vietnam' ordinal='22' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Belgium &amp; Luxembourg' ordinal='23' />
+              <column datatype='integer' name='Visitor Arrivals: Air: CIS' ordinal='24' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Finland' ordinal='25' />
+              <column datatype='integer' name='Visitor Arrivals: Air: France' ordinal='26' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Germany' ordinal='27' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Ireland' ordinal='28' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Italy' ordinal='29' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Netherlands' ordinal='30' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Spain' ordinal='31' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Switzerland' ordinal='32' />
+              <column datatype='integer' name='Visitor Arrivals: Air: United Kingdom' ordinal='33' />
+              <column datatype='integer' name='Visitor Arrivals: Air: Australia' ordinal='34' />
+              <column datatype='integer' name='Visitor Arrivals: Air: New Zealand' ordinal='35' />
+            </columns>
+          </relation>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[By air]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:AJ313:no:A1:AJ313:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>2</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Date</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Date]</local-name>
+            <parent-name>[By air]</parent-name>
+            <remote-alias>Date</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <object-id>[By air_3CAA2F71CB0C410DA6C1570398BFE917]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Names</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Pivot Field Names]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Names</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[By air_3CAA2F71CB0C410DA6C1570398BFE917]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Values</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Pivot Field Values]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Values</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[By air_3CAA2F71CB0C410DA6C1570398BFE917]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Country' datatype='string' name='[Pivot Field Names - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[Pivot Field Names]'>
+        <calculation class='tableau' formula='TRIM( SPLIT( SPLIT( SPLIT( [Pivot Field Names], &quot;Visitor&quot;, 2 ), &quot;Arrivals&quot;, 2 ), &quot;:&quot;, 3 ) )' />
+      </column>
+      <column datatype='string' hidden='true' name='[Pivot Field Names]' role='dimension' type='nominal' />
+      <column caption='Arrivals' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+      <column caption='By air' datatype='table' name='[__tableau_internal_object_id__].[By air_3CAA2F71CB0C410DA6C1570398BFE917]' role='measure' type='quantitative' />
+      <column-instance column='[Pivot Field Names - Split 1]' derivation='None' name='[none:Pivot Field Names - Split 1:nk]' pivot='key' type='nominal' />
+      <extract _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' object-id='' units='records'>
+        <connection access_mode='readonly' authentication='auth-none' author-locale='en_GB' class='hyper' dbname='C:/clyerica/ISSS608-VAA/In-class_Ex/data/By air (Visitor arrivals by air-raw).hyper' default-settings='yes' schema='Extract' sslmode='' tablename='Extract' update-time='' username='tableau_internal_user'>
+          <relation name='Extract' table='[Extract].[Extract]' type='table' />
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>Date</remote-name>
+              <remote-type>133</remote-type>
+              <local-name>[Date]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Date</remote-alias>
+              <ordinal>0</ordinal>
+              <family>By air</family>
+              <local-type>date</local-type>
+              <aggregation>Year</aggregation>
+              <approx-count>399</approx-count>
+              <contains-null>true</contains-null>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Pivot Field Names</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Pivot Field Names]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Pivot Field Names</remote-alias>
+              <ordinal>1</ordinal>
+              <family>Pivot</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>35</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='binary' />
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Pivot Field Values</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Pivot Field Values]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Pivot Field Values</remote-alias>
+              <ordinal>2</ordinal>
+              <family>Pivot</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>5221</approx-count>
+              <contains-null>true</contains-null>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:Pivot Field Names - Split 1:nk]' type='palette'>
+            <map to='#499894'>
+              <bucket>&quot;France&quot;</bucket>
+            </map>
+            <map to='#499894'>
+              <bucket>&quot;Switzerland&quot;</bucket>
+            </map>
+            <map to='#4e79a7'>
+              <bucket>&quot;Australia&quot;</bucket>
+            </map>
+            <map to='#4e79a7'>
+              <bucket>&quot;New Zealand&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;Canada&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;Saudi Arabia&quot;</bucket>
+            </map>
+            <map to='#79706e'>
+              <bucket>&quot;Indonesia&quot;</bucket>
+            </map>
+            <map to='#79706e'>
+              <bucket>&quot;United Kingdom&quot;</bucket>
+            </map>
+            <map to='#86bcb6'>
+              <bucket>&quot;Germany&quot;</bucket>
+            </map>
+            <map to='#86bcb6'>
+              <bucket>&quot;Taiwan&quot;</bucket>
+            </map>
+            <map to='#8cd17d'>
+              <bucket>&quot;China&quot;</bucket>
+            </map>
+            <map to='#8cd17d'>
+              <bucket>&quot;South Korea&quot;</bucket>
+            </map>
+            <map to='#9d7660'>
+              <bucket>&quot;Myanmar&quot;</bucket>
+            </map>
+            <map to='#a0cbe8'>
+              <bucket>&quot;Bangladesh&quot;</bucket>
+            </map>
+            <map to='#a0cbe8'>
+              <bucket>&quot;Pakistan&quot;</bucket>
+            </map>
+            <map to='#b07aa1'>
+              <bucket>&quot;Kuwait&quot;</bucket>
+            </map>
+            <map to='#b6992d'>
+              <bucket>&quot;CIS&quot;</bucket>
+            </map>
+            <map to='#b6992d'>
+              <bucket>&quot;Spain&quot;</bucket>
+            </map>
+            <map to='#bab0ac'>
+              <bucket>&quot;Ireland&quot;</bucket>
+            </map>
+            <map to='#bab0ac'>
+              <bucket>&quot;USA&quot;</bucket>
+            </map>
+            <map to='#d37295'>
+              <bucket>&quot;Italy&quot;</bucket>
+            </map>
+            <map to='#d37295'>
+              <bucket>&quot;Vietnam&quot;</bucket>
+            </map>
+            <map to='#d4a6c8'>
+              <bucket>&quot;Malaysia&quot;</bucket>
+            </map>
+            <map to='#d7b5a6'>
+              <bucket>&quot;Netherlands&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;Hong Kong SAR (China)&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;Thailand&quot;</bucket>
+            </map>
+            <map to='#f1ce63'>
+              <bucket>&quot;Finland&quot;</bucket>
+            </map>
+            <map to='#f1ce63'>
+              <bucket>&quot;Sri Lanka&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;Belgium &amp; Luxembourg&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;Philippines&quot;</bucket>
+            </map>
+            <map to='#fabfd2'>
+              <bucket>&quot;Japan&quot;</bucket>
+            </map>
+            <map to='#ff9d9a'>
+              <bucket>&quot;India&quot;</bucket>
+            </map>
+            <map to='#ff9d9a'>
+              <bucket>&quot;United Arab Emirates&quot;</bucket>
+            </map>
+            <map to='#ffbe7d'>
+              <bucket>&quot;Brunei&quot;</bucket>
+            </map>
+            <map to='#ffbe7d'>
+              <bucket>&quot;Republic of South Africa&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Singapore&quot;' />
+      </semantic-values>
+      <object-graph>
+        <objects>
+          <object caption='By air' id='By air_3CAA2F71CB0C410DA6C1570398BFE917'>
+            <properties context=''>
+              <relation name='Pivot' type='pivot'>
+                <columns>
+                  <column datatype='string' name='Pivot Field Names' />
+                  <column datatype='integer' name='Pivot Field Values' />
+                </columns>
+                <tag name='Pivot Field Names'>
+                  <value name='[Visitor Arrivals: Air: Australia]' />
+                  <value name='[Visitor Arrivals: Air: Bangladesh]' />
+                  <value name='[Visitor Arrivals: Air: Belgium &amp; Luxembourg]' />
+                  <value name='[Visitor Arrivals: Air: Brunei]' />
+                  <value name='[Visitor Arrivals: Air: CIS]' />
+                  <value name='[Visitor Arrivals: Air: Canada]' />
+                  <value name='[Visitor Arrivals: Air: China]' />
+                  <value name='[Visitor Arrivals: Air: Finland]' />
+                  <value name='[Visitor Arrivals: Air: France]' />
+                  <value name='[Visitor Arrivals: Air: Germany]' />
+                  <value name='[Visitor Arrivals: Air: Hong Kong SAR (China)]' />
+                  <value name='[Visitor Arrivals: Air: India]' />
+                  <value name='[Visitor Arrivals: Air: Indonesia]' />
+                  <value name='[Visitor Arrivals: Air: Ireland]' />
+                  <value name='[Visitor Arrivals: Air: Italy]' />
+                  <value name='[Visitor Arrivals: Air: Japan]' />
+                  <value name='[Visitor Arrivals: Air: Kuwait]' />
+                  <value name='[Visitor Arrivals: Air: Malaysia]' />
+                  <value name='[Visitor Arrivals: Air: Myanmar]' />
+                  <value name='[Visitor Arrivals: Air: Netherlands]' />
+                  <value name='[Visitor Arrivals: Air: New Zealand]' />
+                  <value name='[Visitor Arrivals: Air: Pakistan]' />
+                  <value name='[Visitor Arrivals: Air: Philippines]' />
+                  <value name='[Visitor Arrivals: Air: Republic of South Africa]' />
+                  <value name='[Visitor Arrivals: Air: Saudi Arabia]' />
+                  <value name='[Visitor Arrivals: Air: South Korea]' />
+                  <value name='[Visitor Arrivals: Air: Spain]' />
+                  <value name='[Visitor Arrivals: Air: Sri Lanka]' />
+                  <value name='[Visitor Arrivals: Air: Switzerland]' />
+                  <value name='[Visitor Arrivals: Air: Taiwan]' />
+                  <value name='[Visitor Arrivals: Air: Thailand]' />
+                  <value name='[Visitor Arrivals: Air: USA]' />
+                  <value name='[Visitor Arrivals: Air: United Arab Emirates]' />
+                  <value name='[Visitor Arrivals: Air: United Kingdom]' />
+                  <value name='[Visitor Arrivals: Air: Vietnam]' />
+                </tag>
+                <groups>
+                  <group name='Pivot Field Values'>
+                    <field name='[By air].[Visitor Arrivals: Air: Australia]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Bangladesh]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Belgium &amp; Luxembourg]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Brunei]' />
+                    <field name='[By air].[Visitor Arrivals: Air: CIS]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Canada]' />
+                    <field name='[By air].[Visitor Arrivals: Air: China]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Finland]' />
+                    <field name='[By air].[Visitor Arrivals: Air: France]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Germany]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Hong Kong SAR (China)]' />
+                    <field name='[By air].[Visitor Arrivals: Air: India]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Indonesia]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Ireland]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Italy]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Japan]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Kuwait]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Malaysia]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Myanmar]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Netherlands]' />
+                    <field name='[By air].[Visitor Arrivals: Air: New Zealand]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Pakistan]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Philippines]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Republic of South Africa]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Saudi Arabia]' />
+                    <field name='[By air].[Visitor Arrivals: Air: South Korea]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Spain]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Sri Lanka]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Switzerland]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Taiwan]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Thailand]' />
+                    <field name='[By air].[Visitor Arrivals: Air: USA]' />
+                    <field name='[By air].[Visitor Arrivals: Air: United Arab Emirates]' />
+                    <field name='[By air].[Visitor Arrivals: Air: United Kingdom]' />
+                    <field name='[By air].[Visitor Arrivals: Air: Vietnam]' />
+                  </group>
+                </groups>
+                <relation connection='excel-direct.0jy1d980ulqiix14hj36v14wcxzx' name='By air' table='[&apos;By air$&apos;]' type='table'>
+                  <columns gridOrigin='A1:AJ313:no:A1:AJ313:0' header='yes' outcome='2'>
+                    <column datatype='date' name='Date' ordinal='0' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Republic of South Africa' ordinal='1' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Canada' ordinal='2' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: USA' ordinal='3' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Bangladesh' ordinal='4' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Brunei' ordinal='5' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: China' ordinal='6' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Hong Kong SAR (China)' ordinal='7' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: India' ordinal='8' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Indonesia' ordinal='9' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Japan' ordinal='10' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: South Korea' ordinal='11' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Kuwait' ordinal='12' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Malaysia' ordinal='13' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Myanmar' ordinal='14' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Pakistan' ordinal='15' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Philippines' ordinal='16' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Saudi Arabia' ordinal='17' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Sri Lanka' ordinal='18' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Taiwan' ordinal='19' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Thailand' ordinal='20' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: United Arab Emirates' ordinal='21' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Vietnam' ordinal='22' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Belgium &amp; Luxembourg' ordinal='23' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: CIS' ordinal='24' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Finland' ordinal='25' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: France' ordinal='26' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Germany' ordinal='27' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Ireland' ordinal='28' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Italy' ordinal='29' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Netherlands' ordinal='30' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Spain' ordinal='31' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Switzerland' ordinal='32' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: United Kingdom' ordinal='33' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: Australia' ordinal='34' />
+                    <column datatype='integer' name='Visitor Arrivals: Air: New Zealand' ordinal='35' />
+                  </columns>
+                </relation>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='Extract' table='[Extract].[Extract]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Monthly Arrivals'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run><![CDATA[<Sheet Name> (<[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]>)
+]]></run>
+            <run fontsize='11'>2010-2019</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='By air (Visitor arrivals by air-raw)' name='federated.1xy1qz70bmd6gl1f6h5oj03ilg75' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1xy1qz70bmd6gl1f6h5oj03ilg75'>
+            <column datatype='date' name='[Date]' role='dimension' type='ordinal' />
+            <column caption='Country' datatype='string' name='[Pivot Field Names - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[Pivot Field Names]'>
+              <calculation class='tableau' formula='TRIM( SPLIT( SPLIT( SPLIT( [Pivot Field Names], &quot;Visitor&quot;, 2 ), &quot;Arrivals&quot;, 2 ), &quot;:&quot;, 3 ) )' />
+            </column>
+            <column datatype='string' hidden='true' name='[Pivot Field Names]' role='dimension' type='nominal' />
+            <column caption='Arrivals' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Date]' derivation='None' name='[none:Date:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Pivot Field Names - Split 1]' derivation='None' name='[none:Pivot Field Names - Split 1:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Date:qk]' included-values='in-range'>
+            <min>#2010-01-01#</min>
+            <max>#2019-12-31#</max>
+          </filter>
+          <filter class='categorical' column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' filter-group='3'>
+            <groupfilter function='level-members' level='[none:Pivot Field Names - Split 1:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]</column>
+            <column>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Date:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <trendline enable-confidence-bands='false' enable-instant-analytics='true' enabled='true' exclude-color='false' exclude-intercept='false' fit='linear' />
+          </pane>
+        </panes>
+        <rows>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[sum:Pivot Field Values:qk]</rows>
+        <cols>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Date:qk]</cols>
+      </table>
+      <simple-id uuid='{7EC369D5-85E3-4249-B399-BE0811DE5A3A}' />
+    </worksheet>
+    <worksheet name='Yearly Arrivals'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='By air (Visitor arrivals by air-raw)' name='federated.1xy1qz70bmd6gl1f6h5oj03ilg75' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1xy1qz70bmd6gl1f6h5oj03ilg75'>
+            <column datatype='date' name='[Date]' role='dimension' type='ordinal' />
+            <column caption='Country' datatype='string' name='[Pivot Field Names - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[Pivot Field Names]'>
+              <calculation class='tableau' formula='TRIM( SPLIT( SPLIT( SPLIT( [Pivot Field Names], &quot;Visitor&quot;, 2 ), &quot;Arrivals&quot;, 2 ), &quot;:&quot;, 3 ) )' />
+            </column>
+            <column datatype='string' hidden='true' name='[Pivot Field Names]' role='dimension' type='nominal' />
+            <column caption='Arrivals' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Pivot Field Names - Split 1]' derivation='None' name='[none:Pivot Field Names - Split 1:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date]' derivation='Year' name='[yr:Date:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]'>
+            <groupfilter function='member' level='[none:Pivot Field Names - Split 1:nk]' member='&quot;Australia&quot;' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[sum:Pivot Field Values:qk]</rows>
+        <cols>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[yr:Date:ok]</cols>
+      </table>
+      <simple-id uuid='{9028AA3F-76E8-48A7-8A05-814425CE9819}' />
+    </worksheet>
+    <worksheet name='Yearly Changes by Month'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>&lt;Sheet Name&gt; (&lt;</run>
+            <run>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]</run>
+            <run>&gt;)&#10;</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='By air (Visitor arrivals by air-raw)' name='federated.1xy1qz70bmd6gl1f6h5oj03ilg75' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1xy1qz70bmd6gl1f6h5oj03ilg75'>
+            <column datatype='date' name='[Date]' role='dimension' type='ordinal' />
+            <column caption='Country' datatype='string' name='[Pivot Field Names - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[Pivot Field Names]'>
+              <calculation class='tableau' formula='TRIM( SPLIT( SPLIT( SPLIT( [Pivot Field Names], &quot;Visitor&quot;, 2 ), &quot;Arrivals&quot;, 2 ), &quot;:&quot;, 3 ) )' />
+            </column>
+            <column datatype='string' hidden='true' name='[Pivot Field Names]' role='dimension' type='nominal' />
+            <column caption='Arrivals' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Date]' derivation='Month' name='[mn:Date:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Date]' derivation='None' name='[none:Date:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Pivot Field Names - Split 1]' derivation='None' name='[none:Pivot Field Names - Split 1:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date]' derivation='Year' name='[yr:Date:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Date:qk]' included-values='in-range'>
+            <min>#2010-01-01#</min>
+            <max>#2019-12-31#</max>
+          </filter>
+          <filter class='categorical' column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' filter-group='3'>
+            <groupfilter function='level-members' level='[none:Pivot Field Names - Split 1:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]</column>
+            <column>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Date:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='refline'>
+            <format attr='fill-above' id='refline0' value='#00000000' />
+            <format attr='fill-below' id='refline0' value='#00000000' />
+            <format attr='line-visibility' id='refline0' value='on' />
+            <format attr='line-pattern-only' id='refline0' value='dashed' />
+            <format attr='stroke-size' id='refline0' value='3' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <reference-line axis-column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[sum:Pivot Field Values:qk]' enable-instant-analytics='true' formula='average' id='refline0' label-type='none' probability='95' scope='per-pane' value-column='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[sum:Pivot Field Values:qk]' z-order='1' />
+          </pane>
+        </panes>
+        <rows>[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[sum:Pivot Field Values:qk]</rows>
+        <cols>([federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[mn:Date:ok] / [federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[yr:Date:ok])</cols>
+      </table>
+      <simple-id uuid='{8EFCE3D9-FABF-427E-94AF-CE0CF86A661C}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard enable-sort-zone-taborder='true' name='Dashboard 1'>
+      <style />
+      <size sizing-mode='automatic' />
+      <datasources>
+        <datasource caption='By air (Visitor arrivals by air-raw)' name='federated.1xy1qz70bmd6gl1f6h5oj03ilg75' />
+      </datasources>
+      <datasource-dependencies datasource='federated.1xy1qz70bmd6gl1f6h5oj03ilg75'>
+        <column caption='Country' datatype='string' name='[Pivot Field Names - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[Pivot Field Names]'>
+          <calculation class='tableau' formula='TRIM( SPLIT( SPLIT( SPLIT( [Pivot Field Names], &quot;Visitor&quot;, 2 ), &quot;Arrivals&quot;, 2 ), &quot;:&quot;, 3 ) )' />
+        </column>
+        <column-instance column='[Pivot Field Names - Split 1]' derivation='None' name='[none:Pivot Field Names - Split 1:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='92782' id='7' param='horz' type-v2='layout-flow' w='99064' x='468' y='6458'>
+            <zone h='92782' id='5' type-v2='layout-basic' w='99064' x='468' y='6458'>
+              <zone h='46391' id='3' name='Monthly Arrivals' w='89702' x='9830' y='6458'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='46391' id='9' name='Yearly Changes by Month' w='89702' x='9830' y='52849'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='92782' id='8' mode='radiolist' name='Monthly Arrivals' param='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' type-v2='filter' w='9362' x='468' y='6458'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+          </zone>
+          <zone forceUpdate='true' h='5698' id='10' type-v2='text' w='99064' x='468' y='760'>
+            <formatted-text>
+              <run bold='true' fontalignment='1' fontsize='18'>Arrivals by Air (2010-2019)</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='750' minheight='750' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='16' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98480' id='15' param='vert' type-v2='layout-flow' w='99064' x='468' y='760'>
+                <zone forceUpdate='true' h='5698' id='10' type-v2='text' w='99064' x='468' y='760'>
+                  <formatted-text>
+                    <run bold='true' fontalignment='1' fontsize='18'>Arrivals by Air (2010-2019)</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='92782' id='8' mode='dropdown' name='Monthly Arrivals' param='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' type-v2='filter' w='9362' x='468' y='6458'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='46391' id='3' is-fixed='true' name='Monthly Arrivals' w='89702' x='9830' y='6458'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='46391' id='9' is-fixed='true' name='Yearly Changes by Month' w='89702' x='9830' y='52849'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{C2D34B68-C540-492C-832D-EF485A56B23C}' />
+    </dashboard>
+  </dashboards>
+  <windows source-height='30'>
+    <window class='worksheet' name='Yearly Arrivals'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='radiolist' param='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{1206ED84-0317-45A0-8025-ED277CC08023}' />
+    </window>
+    <window class='worksheet' name='Monthly Arrivals'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='radiolist' param='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{35FE1B66-1C6E-479C-8836-096B95637AF5}' />
+    </window>
+    <window class='worksheet' name='Yearly Changes by Month'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='radiolist' param='[federated.1xy1qz70bmd6gl1f6h5oj03ilg75].[none:Pivot Field Names - Split 1:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='fit-width' />
+      </viewpoint>
+      <simple-id uuid='{B04F6894-6DF7-4F71-8BE8-A5EC93B49310}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='Monthly Arrivals'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Yearly Changes by Month'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='3' />
+      <simple-id uuid='{A6985A0D-4915-4AC4-8BDB-E4B82D31F8AF}' />
+    </window>
+  </windows>
+</workbook>

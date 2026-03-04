@@ -29,7 +29,7 @@ These variables can be assessed against their grade point average, which has bee
 For this exercise, we will use the following packages:
 
 | Package | Purpose |
-|---------------------|---------------------------------------------------|
+|----|----|
 | readxl | Provide function to read in data from excel file to dataframe |
 | gtsummary | Provide functions for publication-ready analytical and summary tables of data |
 | knitr | Provide functions for creating publication-ready tables |
@@ -132,7 +132,7 @@ The full survey questions from the [codebook](https://data.mendeley.com/datasets
 
 ::: {style="height: 400px; overflow-y: auto; font-size: 0.8em"}
 |  |  |  |  |  |  |  |  |
-|---------|---------|---------|---------|---------|---------|---------|---------|
+|----|----|----|----|----|----|----|----|
 | **Year** | What year student are you in? | Third-year | Fourth-year | Graduated | \- | \- | \- |
 | **Gender** | What is your gender? | Male | Female | \- | \- | \- | \- |
 | **Policy_Stu** | Are you a student on policy government support? | Yes | No | \- | \- | \- | \- |
