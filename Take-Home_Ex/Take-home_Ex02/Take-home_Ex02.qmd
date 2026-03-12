@@ -1,4 +1,811 @@
 ---
-title: "Take-home_Ex01"
+title: "Prototyping Modules for Visual Analytics Shiny Application"
 format: html
+author: "Erica Chan"
+date: "13-05-2026"
+date-modified: "last-modified"
+number-sections: true
 ---
+
+## Overview
+
+For the ISSS608 Visual Analytics Project, we will use the Colombian Fintech FInancial Analytics (COFINFAD) dataset to build an interactive web application allowing users to explore and utilise the dataset effectively and easily. The application will contain three main modules, covering confirmatory data analysis to understand how groups of customers differ in their adoption of fintech services; clustering to explore how to characterise key groups of fintech consumers, and time-oriented analysis to understand the transaction behaviour of fintech consumers over time as well as predict the liquidity needs of the fintech provider.
+
+We have selected the *Time-Oriented Analysis of Transaction Behaviour* of the proposed Shiny application for the ISSS608 Visual Analytics Project. In this exercise, we will complete the following tasks:
+
+-   To evaluate and determine the necessary R packages needed,
+-   To prepare and test the specific R codes can be run and returned the correct visual output as expected,
+-   To determine the parameters and outputs that will be exposed on the Shiny applications, and
+-   To select the appropriate Shiny UI components for exposing the parameters determine above.
+
+## Import R Packages
+
+The following R packages will be used:
+
++------------+---------+--------------------------------------------------+
+| R Package  | Purpose | Used in Shiny App?                               |
++============+=========+==================================================+
+| tidyverse  |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| knitr      |         | no                                               |
++------------+---------+--------------------------------------------------+
+| DT         |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| tsibble    |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| feasts     |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| lubridate  |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| tidymodels |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| timetk     |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| modeltime  |         | yes                                              |
++------------+---------+--------------------------------------------------+
+| rlang      |         | yes                                              |
++------------+---------+--------------------------------------------------+
+
+The following code chunk imports and loads the necessary packages for this exercise
+
+```{r}
+pacman::p_load(tidyverse, knitr, DT, tsibble, feasts, plotly, lubridate, tidymodels, timetk, modeltime, rlang)
+```
+
+## Import Data
+
+The COFINFAD dataset covers 12 months of transaction data collected from over 48,000 customers from a Colombian fintech company in 2023. The following code chunks load in the customer and transaction data into R for further processing.
+
+::: panel-tabset
+### Customer data
+
+```{r}
+customers <- read_csv('data/aspatial/customer_data.csv')
+```
+
+### Transaction data
+
+```{r}
+transactions <- read_csv('data/aspatial/transactions_data.csv')
+```
+:::
+
+## Storyboard
+
+The following images demonstrate the planned layout for the module, which will consist of two main pages:
+
+1.  Dashboard exploring the transaction behaviour of customers over time
+
+2.  Exploring past trends in net cashflow based on customer transactions and forecasting future cashflow
+
+### Dashboard
+
+![Transaction Behaviour Over Time Dashboard - Showing cycle plot](images/dashboard_a.png)
+
+![Transaction Behaviour Over Time Dashboard - Showing STL Decomposition](images/dashboard_b.png)
+
+The dashboard will consist of 5 main sections.
+
+1.  General Filters - These will manipulate dataset that the figures and graphs are based on, allowing users to focus on specific subsections of data they are interested in such.
+
+2.  Key statistics - This will highlight some key statistics from the subset of data being analysed
+
+3.  Animated bubble chart - This will allow users to understand visualise how the distribution of customers according to the selected segmentation variable and the average transaction behaviour of customers within each segment has changed over time.
+
+4.  Cohort retention heatmap - This allows customers to visualise the percentage of returning customers making transactions from each monthly cohort of new customers.
+
+5.  Cycle Plot/STL Decomposition plot - These allow the users to explore possible seasonal/cyclical patterns in transaction behaviour
+
+### Cashflow Analysis
+
+![Net Cashflow Exploratory Data Analysis](images/forecast_a.png)
+
+The first tab of the cashflow analysis consists of two graphs. The first graph plots the amounts of cash inflow/outflow based on the transaction data, and produces a color-coded shaded area representing net inflow or net outflow. The second graph breaks down inflow and outflow contributions by customer segment.
+
+![Forecasting](images/forecast_b.png)
+
+The second tab of the cashflow analysis provides a simple user interface for users to train and test various forecasting models to predict upcoming cashflow.
+
+## Dashboard filters
+
+For the various graphs to be shown, we will allow the following general filters to be applied to the dataset:
+
++----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+| Filter               | Shiny widget type                                                    | Values                                                                           | Function                                                                                     |
++======================+======================================================================+==================================================================================+==============================================================================================+
+| Transaction Type     | radioButtons()                                                       | values from `Type` in *transactions*                                             | Allow users to filter what sort of transaction behaviour from customers they want to analyse |
++----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+| Customer type filter | selectInput() for selecting variable                                 | `gender` in *customers*                                                          | Allow users to select how to group the customer base for comparison between groups           |
+|                      |                                                                      |                                                                                  |                                                                                              |
+|                      |                                                                      | `acquisition_channel` in *customers*                                             |                                                                                              |
+|                      |                                                                      |                                                                                  |                                                                                              |
+|                      |                                                                      | `customer_segment` in *customers*                                                |                                                                                              |
+|                      |                                                                      |                                                                                  |                                                                                              |
+|                      |                                                                      | `location` in *customers*                                                        |                                                                                              |
+|                      |                                                                      |                                                                                  |                                                                                              |
+|                      |                                                                      | `clv_segment` in *customers*                                                     |                                                                                              |
+|                      |                                                                      |                                                                                  |                                                                                              |
+|                      |                                                                      | `income_bracket` in *customers*                                                  |                                                                                              |
++----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+|                      | checkboxGroupInput() for selecting specific values within a variable | values from variables in preceding row, depending on which variable was selected | Allow users to select the exact segment of customer base to analyse                          |
++----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+| Date range filter    | dateRangeInput()                                                     | 1 Jan 2023 - 31 Dec 2023                                                         | Allow users to select the date range of transaction data to analyse                          |
++----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+
+### Functions to filter data
+
+The following code chunka creates functions to filter data based on the user input. This will be utilised in the shiny app to pre-filter the dataset before performing the computations/displaying the graphs.
+
+::: panel-tabset
+#### Transaction date range
+
+```{r}
+filter_tx_dates<- function(tx=transactions, start_date, end_date){
+   result <- tx %>%
+     filter(date>=ymd(start_date),
+            date<=ymd(end_date))%>%
+     mutate(week = yearweek(date),
+            wk_date=as.Date(week))
+   
+   return(result)
+}
+```
+
+Testing the function
+
+```{r}
+filtered_tx_dates <- filter_tx_dates(transactions, "2023-01-01", "2023-3-30")
+kable(summary(filtered_tx_dates))
+
+```
+
+#### Transaction type
+
+```{r}
+filter_tx <- function(selected_type='All'){
+ if(selected_type!='All'){
+    result <- transactions %>%
+      filter(type==selected_type)
+    return(result)
+ }
+  else {
+    return(transactions)
+  }
+}
+```
+
+Testing the function
+
+```{r}
+filtered_tx <- filter_tx(selected_type="Payment")
+kable(head(filtered_tx))
+```
+
+#### Customer type
+
+```{r}
+filter_customer <- function(selected_type='All', selected_value='All'){
+  if(selected_type!='All'){
+      selected_cols <- customers %>%
+          select(customer_id, all_of(selected_type), first_tx)
+      if (!identical(selected_value, 'All')){
+        filtered_customers <- selected_cols %>%
+          filter(.data[[selected_type]] %in% selected_value)
+      return(filtered_customers)
+    } else {
+      return(selected_cols)
+    }
+  }
+  else{
+    return(select(customers, customer_id, first_tx))
+  }
+}
+```
+
+Testing the function
+
+```{r}
+filtered_cust <- filter_customer(selected_type='clv_segment',
+                                 selected_value=c('Gold', 'Bronze', 'Silver'))
+kable(head(filtered_cust))
+```
+:::
+
+## Animated Bubble Chart
+
+### Filter
+
++-------------+-------------------+-----------+--------------------------------------------------------------------------------------------------------------------------------------------+
+| Filter      | Shiny widget type | Values    | Function                                                                                                                                   |
++=============+===================+===========+============================================================================================================================================+
+| Time metric | radioButtons()    | -   month | Allow users to select whether to aggregate data on a monthly or weekly basis to view changes in average transaction behaviour of customers |
+|             |                   |           |                                                                                                                                            |
+|             |                   | -   week  |                                                                                                                                            |
++-------------+-------------------+-----------+--------------------------------------------------------------------------------------------------------------------------------------------+
+
+```{r}
+get_animation_data <- function(tx_df, cust_df,  selected_type, time_metric){   
+  if (time_metric=="month"){     
+    result <- tx_df %>%       
+      inner_join(cust_df, by = "customer_id") %>%       
+      mutate(month = month(date, label=TRUE)) %>%       
+      group_by(month, .data[[selected_type]]) %>%       
+      summarise(         
+        avg_tx_value = mean(amount),
+        avg_tx_count = n()/n_distinct(customer_id),
+        unique_customers = n_distinct(customer_id),
+        .groups = 'drop'         
+      )   
+  } else if (time_metric=="week"){     
+      result <- tx_df %>%       
+        inner_join(cust_df, by = "customer_id") %>%       
+        mutate(week = yearweek(date)) %>%       
+        group_by(week, .data[[selected_type]]) %>%       
+        summarise(         
+          avg_tx_value = mean(amount),         
+          avg_tx_count = n()/n_distinct(customer_id),         
+          unique_customers = n_distinct(customer_id),         
+          .groups = 'drop'         
+        )   
+  }    
+  return(result) 
+  }
+```
+
+```{r}
+animated_data <- get_animation_data(transactions, customers, "location", "week")
+```
+
+### Create visualisation 
+
+```{r}
+get_bubble_plot <- function(data, selected_type, time_metric){   
+  result <- ggplot(animated_data, 
+                   aes(x = avg_tx_value,
+                       y = avg_tx_count,
+                       size = unique_customers,
+                       text=paste("Number of customers:", unique_customers,
+                                  "<br>Average transaction value:", avg_tx_value,
+                                  "<br>Average transaction vount:", avg_tx_count,
+                                  "<br>", selected_type,":", !!sym(selected_type))
+                       )) +     
+    geom_point(aes(size=unique_customers,
+                   color = !!sym(selected_type),
+                   ids = !!sym(selected_type),
+                   frame=as.character(!!sym(time_metric))),
+               alpha = 0.7, show.legend = FALSE) +     
+    theme_grey() +     
+    labs(title = "User Transaction Behaviour over Time",          
+         x = "Average User Transaction Value",          
+         y = "Average User Transaction Counts") 
+  
+  return(result) }
+```
+
+```{r}
+p <- get_bubble_plot(animated_data, "location", "week")  
+
+ggplotly(p, tooltip="text")
+```
+
+## Cohort Retention Heatmap
+
+### Filter
+
++-------------------------+-------------------+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+
+| Filter                  | Shiny widget type | Values                                               | Function                                                                                                                              |
++=========================+===================+======================================================+=======================================================================================================================================+
+| Customer segment filter | Radio buttons     | -   ‘All’                                            | Allow users to toggle cohort retention analysis of specific segments to facilitate comparing retention rates across customer segments |
+|                         |                   |                                                      |                                                                                                                                       |
+|                         |                   | -   Values of variable used to segment customer base |                                                                                                                                       |
++-------------------------+-------------------+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+
+
+```{r}
+get_cohort_data <- function(tx_df, cust_df, selected_type, segment_value){
+  if (segment_value != 'All'){
+    cust_data <- cust_df %>%
+      filter(.data[[selected_type]] == segment_value)
+  }
+  else{
+    cust_data <- cust_df
+  }
+  result <- tx_df %>%
+    inner_join(cust_data, by = "customer_id")%>%
+    mutate(
+      cohort_month = floor_date(as.Date(first_tx), "month"),
+      activity_month = floor_date(as.Date(date), "month"),
+      month_number = (year(activity_month) - year(cohort_month)) * 12 + 
+                 (month(activity_month) - month(cohort_month))
+    )
+}
+```
+
+```{r}
+cohort_data <- get_cohort_data(transactions, filtered_cust, "clv_segment", "Gold")
+kable(head(cohort_data))
+```
+
+### Create visualisation
+
+```{r}
+get_cra_heatmap <- function(cra_data, selected_type, segment_value) {
+  
+    cohort_counts <- cra_data %>%
+    group_by(cohort_month, month_number) %>%
+    summarise(active_users = n_distinct(customer_id), .groups = 'drop')
+  
+    initial_cohorts <- cohort_counts %>%
+      filter(month_number == 0) %>%
+      select(cohort_month, initial_users = active_users)
+    
+    retention_matrix <- cohort_counts %>%
+      left_join(initial_cohorts, by = "cohort_month") %>%
+      mutate(retention_pct = active_users / initial_users)
+    
+    if (segment_value=='All'){
+      title_value=paste("Customer Retention by Acquisition Cohort (", 
+                        selected_type, "-", segment_value, ")")
+    } else{
+      title_value=("Customer Retention by Acquisition Cohort")
+    }
+    
+    result <- ggplot(retention_matrix, aes(x = month_number, y = factor(cohort_month), fill = retention_pct)) +
+      geom_tile() +
+      scale_fill_gradient2(low = "firebrick",
+                           mid = "white",
+                          high = "steelblue",
+                          midpoint = 0.5,
+                          labels = scales::percent,
+                          limits = c(0, 1)) +
+      theme_grey() +
+      labs(title = ifelse(segment_value=="All", "Customer Retention by Acquisition Cohort", paste("Customer Retention by Acquisition Cohort \n(", selected_type, "-", segment_value, ")")),
+           subtitle = "Each cell represents the percentage of customers who made at \nleast one transaction in the months following their first transaction",
+           x = "Months Since Acquisition",
+           y = "Acquisition Cohort",
+           fill = "Retention Rate")
+    return(result)
+}
+```
+
+```{r}
+heatmap <- get_cra_heatmap(cohort_data, "clv_segment", "Gold")
+heatmap 
+```
+
+## Seasonal Trend EDA
+
+### Filter
+
++--------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
+| Filter | Shiny widget type | Values                 | Function                                                                                     |
++========+===================+========================+==============================================================================================+
+| Metric | radioButtons()    | -   Transaction Amount | Allow users to select what sort of transaction behaviour from customers they want to analyse |
+|        |                   | -   Transaction Count  |                                                                                              |
+|        |                   | -   User Count         |                                                                                              |
++--------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
+
+```{r}
+get_seasonal_data <- function(tx_df, cust_df, segmentation){
+  result <- tx_df %>%
+    inner_join(cust_df, by = "customer_id") %>%
+    group_by(date, !!sym(segmentation)) %>%
+    summarise(tx_count = n(),
+            tx_amt = sum(amount),
+            user_count = n_distinct(customer_id),
+            .groups = 'drop') %>%
+    as_tsibble(index = date, 
+               key = !!sym(segmentation))
+}
+```
+
+```{r}
+seasonal_data <- get_seasonal_data(filter_tx_dates(filtered_tx, 
+                                                   '2023-01-01', 
+                                                   '2023-12-31'), 
+                                   filtered_cust, 
+                                   "clv_segment")
+kable(head(seasonal_data))
+```
+
+### Cycle Plot
+
+```{r}
+get_cycle_plot <- function (data, metric){
+  if (metric == "tx_count"){
+    ylab = "Total Count of Transactions"
+  } else if (metric == "tx_amt") {
+    ylab = "Total Transaction Amount"
+  } else if (metric == "user_count") {
+    ylab = "Total Unique Customers"
+  }
+  
+  result <- data %>% 
+    gg_subseries(.data[[metric]], period="1 week") +
+    labs(y=ylab, x='date')
+  
+  return(result)
+}
+```
+
+```{r}
+get_cycle_plot(seasonal_data, "tx_amt")
+```
+
+### STL Decomposition Plot
+
+#### Filter
+
++-----------------+-------------------+----------------------------------------------+----------------------------------------------------------------------------------------------+
+| Filter          | Shiny widget type | Values                                       | Function                                                                                     |
++=================+===================+==============================================+==============================================================================================+
+| Model Type      | selectInput()     | -   STL decomposition using Loess            | Allow users to select what sort of transaction behaviour from customers they want to analyse |
+|                 |                   | -   Classical decomposition (additive)       |                                                                                              |
+|                 |                   | -   Classical decomposition (multiplicative) |                                                                                              |
++-----------------+-------------------+----------------------------------------------+----------------------------------------------------------------------------------------------+
+| Seasonal period | selectInput       | -   1 week                                   | Allow user to choose seasonal window to account for change in seasonal pattern over time     |
+|                 |                   | -   1 month                                  |                                                                                              |
+|                 |                   | -   3 months                                 |                                                                                              |
++-----------------+-------------------+----------------------------------------------+----------------------------------------------------------------------------------------------+
+| Seasonal window | sliderInput()     | 7 to 99(odd numbers only)                    | Allow user to choose responsiveness of seasonal component to changes for STLM model          |
+|                 |                   |                                              |                                                                                              |
+|                 |                   |                                              | \**Seasonal trend window value should be at least 7 (Cleveland et al, 1990)*                 |
++-----------------+-------------------+----------------------------------------------+----------------------------------------------------------------------------------------------+
+| Trend window    | sliderInput()     | 11 to 99 (odd numbers only)                  | Allow user to choose responsiveness of trend to changes for STLM model                       |
++-----------------+-------------------+----------------------------------------------+----------------------------------------------------------------------------------------------+
+
+```{r}
+get_stl <- function(data, metric, modelType, speriod, swindow=7, twindow=11) {
+  if (modelType == "STLM") {
+    result <- data %>%
+      model(STLM = STL(!!sym(metric) ~ season(period = speriod, window = swindow) + trend(window = twindow), robust = TRUE)) %>%
+      components() %>%
+      autoplot() +
+      theme_grey() +
+      labs(title = "STL Decomposition")
+      
+  } else if (modelType == "Classical (add)") {
+    result <- data %>%
+      model(`Classical (add.)` = classical_decomposition(!!sym(metric) ~ season(period = speriod), type = "additive")) %>%
+      components() %>%
+      autoplot() +
+      theme_grey() +
+      labs(title = "Classical Decomposition (Additive)")
+      
+  } else if (modelType == "Classical (mult)") {
+    result <- data %>%
+      model(`Classical (mult.)` = classical_decomposition(!!sym(metric) ~ season(period = speriod), type = "multiplicative")) %>%
+      components() %>%
+      autoplot() +
+      theme_grey() +
+      labs(title = "Classical Decomposition (Multiplicative)")
+      }
+  
+  return(result)
+}
+```
+
+```{r}
+#| warning: false
+
+get_stl(seasonal_data, "tx_amt", modelType="Classical (mult)", speriod="1 month", swindow=7, twindow=14)
+```
+
+## Cashflow
+
+The fintech company may be interested in understanding the inflow and outflow of cash from user transactions in order to understand how much liquidity to maintain for user transaction operations. As such, we will manipulate the dataset to represent inflow and outflows of liquidity based on the transaction data and create a module to:
+
+1.  Visualise the net flow of cash based on past user transactions
+
+2.  Predict future cash flow
+
+### Filters
+
++---------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Filter                                                  | Shiny widget type                                                               | Values                                                                                                    | Function                                                                                                                                                          |
++=========================================================+=================================================================================+===========================================================================================================+===================================================================================================================================================================+
+| Date range filter                                       |                                                                                 |                                                                                                           | Allow users to select the date range of transaction data to analyse                                                                                               |
++---------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Location                                                | selectInput                                                                     | -   All                                                                                                   | Allow users to narrow down dataset to analyse net liquidity of specific locations                                                                                 |
+|                                                         |                                                                                 | -   Unique values from `location` in *customers*                                                          |                                                                                                                                                                   |
++---------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Time metric                                             | radioButtons                                                                    | -   Daily                                                                                                 | Allow users to analyse net liquidity per week or per month                                                                                                        |
+|                                                         |                                                                                 | -   Weekly                                                                                                |                                                                                                                                                                   |
++---------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+### Data Preparation
+
+First we will prepare the transaction data to represent inflows (deposits) and outflows (withdrawals). We take transfers as transfers made between accounts under the fintech company studied, hence we assume that the transfers do not affect the liquidity. Payments also not included
+
+We will also create relevant columns to allow us to enhance the data visualisation later.
+
+```{r}
+get_liquidity_data <- function(location_value, start_date, end_date, time_metric){
+  if (time_metric == "Daily"){
+    
+    tx_data <- filter_tx_dates(transactions, start_date, end_date)
+    
+    cust_data <- filter_customer("location", location_value)
+    
+    result <- tx_data %>%
+      left_join(cust_data, by="customer_id") %>%
+      pivot_wider(names_from = type, 
+                  values_from = amount,
+                  values_fn = sum) %>%
+      replace_na(list(Withdrawal=0, Deposit=0)) %>%
+      group_by(date) %>%
+      summarise(
+        Inflow=sum(Deposit),
+        Outflow=sum(Withdrawal)
+      ) %>%
+      mutate(Group = ifelse(Inflow > Outflow, "Inflow Higher", "Outflow Higher"),
+             net_liquidity = Inflow-Outflow)
+    
+  } else if (time_metric=="Weekly"){
+    tx_data <- filter_tx_dates(transactions, start_date, end_date)
+    
+    cust_data <- filter_customer("location", location_value)
+    
+    result <- tx_data %>%
+      left_join(cust_data, by="customer_id") %>%
+      pivot_wider(names_from = type, 
+                  values_from = amount,
+                  values_fn = sum) %>%
+      replace_na(list(Withdrawal=0, Deposit=0)) %>%
+      mutate(week = yearweek(date),
+             date=as.Date(week))%>%
+      group_by(date, ) %>%
+      summarise(
+        Inflow=sum(Deposit),
+        Outflow=sum(Withdrawal)
+      ) %>%
+      mutate(Group = ifelse(Inflow > Outflow, "Inflow Higher", "Outflow Higher"),
+             net_liquidity = Inflow-Outflow)
+  }
+  
+  return(result)
+}
+```
+
+```{r}
+liquidity <- get_liquidity_data(unique(customers$location), "2023-01-01", "2023-12-31", "Daily")
+
+liquidity_wk <- get_liquidity_data(unique(customers$location), "2023-01-01", "2023-12-31", "Weekly")
+
+saveRDS(liquidity, "data/rds/liquidity.rds")
+saveRDS(liquidity_wk, "data/rds/liquidity_wk.rds")
+```
+
+### Net Cashflow Visualisation
+
+-   turn to function
+
+```{r}
+ggplot(liquidity_wk, aes(x = date)) +
+  geom_ribbon(aes(ymin = pmin(Inflow, Outflow), 
+                  ymax = pmax(Inflow, Outflow), 
+                  fill = Group), alpha = 0.3) +
+  geom_line(aes(y = Inflow, color = "Inflow"), linewidth = 1) +
+  geom_line(aes(y = Outflow, color = "Outflow"), linewidth = 1) +
+  scale_color_manual(values = c("Inflow" = "steelblue", "Outflow" = "coral")) +
+  scale_fill_manual(values = c("Inflow Higher" = "steelblue", "Outflow Higher" = "coral")) +
+  theme_grey() +
+  labs(title = "Inflow vs. Outflow Over Time", 
+       fill = "Net liquidity", color = "Series", 
+       y="Amount ($)",
+       x="Date")
+```
+
+### Inflow/Outflow Breakdown
+
+#### Filters
+
++-------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+| Filter                                                                              | Shiny widget type                                                            | Values                                                                                                                        | Function                                                                                                             |
++=====================================================================================+==============================================================================+===============================================================================================================================+======================================================================================================================+
+| Customer Segmentation                                                               | selectInput()                                                                | `gender` in *customers*                                                                                                       | Allow users to select how to group the customer base for comparison between groups                                   |
+|                                                                                     |                                                                              |                                                                                                                               |                                                                                                                      |
+|                                                                                     |                                                                              | `acquisition_channel` in *customers*                                                                                          |                                                                                                                      |
+|                                                                                     |                                                                              |                                                                                                                               |                                                                                                                      |
+|                                                                                     |                                                                              | `customer_segment` in *customers*                                                                                             |                                                                                                                      |
+|                                                                                     |                                                                              |                                                                                                                               |                                                                                                                      |
+|                                                                                     |                                                                              | `location` in *customers*                                                                                                     |                                                                                                                      |
+|                                                                                     |                                                                              |                                                                                                                               |                                                                                                                      |
+|                                                                                     |                                                                              | `clv_segment` in *customers*                                                                                                  |                                                                                                                      |
+|                                                                                     |                                                                              |                                                                                                                               |                                                                                                                      |
+|                                                                                     |                                                                              | `income_bracket` in *customers*                                                                                               |                                                                                                                      |
++-------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+
+```{r}
+get_liquidity_cust_data <- function(location_value, start_date, end_date, selected_type){
+  
+    tx_data <- filter_tx_dates(transactions, start_date, end_date)
+      
+    cust_data <- filter_customer("location", location_value)
+    
+    cust_segment <- customers %>% 
+      select(customer_id,  .data[[selected_type]])
+    
+    result <- tx_data %>%
+      inner_join(cust_data, by = "customer_id") %>%
+      inner_join(cust_segment, by = "customer_id") 
+    
+    return(result)
+}
+
+liquidity_cust <- get_liquidity_cust_data("All", "2023-01-01", "2023-12-31", "clv_segment")
+
+head(liquidity_cust)
+```
+
+### Forecasting
+
+#### Filters
+
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| Filter                                                                        | Shiny widget type                                                                                                                 | Values                                                                                              | Function                                                                                                |
++===============================================================================+===================================================================================================================================+=====================================================================================================+=========================================================================================================+
+| Training/test data split                                                      | sliderInput()                                                                                                                     | 0.7 - 0.99                                                                                          | Allow users to adjust training/test datasets for the model                                              |
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| Models used for forecasting                                                   | checkboxGroupInput()                                                                                                              | -   Exponential smoothing                                                                           | Allow user to choose what models to use for forecasting                                                 |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Auto ARIMA                                                                                      |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Boosted ARIMA                                                                                   |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Prophet                                                                                         |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Boosted Prophet                                                                                 |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Linear Regression                                                                               |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Multivariate Adaptive Regression Spline                                                         |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   Naive                                                                                           |                                                                                                         |
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| Forecast period                                                               | numericInput()                                                                                                                    | *numericInput()*                                                                                    | Allow users to decide forecast period while ensuring it is in the correct format to pass into the model |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               | and                                                                                                                               | -   range 1-12                                                                                      |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               | selectInput()                                                                                                                     | *SelectInput()*                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   weeks                                                                                           |                                                                                                         |
+|                                                                               |                                                                                                                                   |                                                                                                     |                                                                                                         |
+|                                                                               |                                                                                                                                   | -   months                                                                                          |                                                                                                         |
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
+
+These filters will be incorporated into the steps as relevant in the code chunks below.
+
+#### Split into training and test data
+
+```{r}
+get_splits <- function(data, splitValue){
+  result = data  %>%
+    initial_time_split(prop = splitValue)
+  
+  return(result)
+}
+
+splits <- get_splits(liquidity, 0.95)
+```
+
+#### Create models
+
+```{r}
+model_fit_ets <- exp_smoothing() %>%
+    set_engine(engine = "ets") %>%
+    fit(net_liquidity ~ as.Date(`date`), 
+        data = training(splits))
+
+model_fit_arima <- arima_reg() %>%
+  set_engine(engine = "auto_arima") %>%
+  fit(net_liquidity ~ as.Date(`date`), 
+      data = training(splits))
+
+model_fit_arima_boosted <- arima_boost(
+  min_n = 2,
+  learn_rate = 0.015) %>%
+  set_engine(
+    engine = "auto_arima_xgboost") %>%
+  fit(net_liquidity ~ as.Date(`date`), 
+      data = training(splits))
+
+model_fit_prophet <- prophet_reg() %>%
+  set_engine(engine = "prophet") %>%
+  fit(net_liquidity ~ as.Date(`date`), 
+      data = training(splits))
+
+model_fit_prophet_boost <- prophet_boost() %>%
+  set_engine("prophet_xgboost") %>%
+  fit(net_liquidity ~ as.Date(`date`), 
+      data = training(splits))
+
+model_fit_linear <- linear_reg() %>%
+    set_engine("lm") %>%
+  fit(net_liquidity ~ as.Date(`date`),
+      data = training(splits))
+
+model_fit_mars <- mars(mode = "regression") %>%
+  set_engine("earth") %>%
+  fit(net_liquidity ~ as.Date(`date`),
+        data = training(splits))
+
+model_fit_naive <- naive_reg() %>%
+  set_engine("naive") %>%
+  fit(net_liquidity ~ as.Date(`date`),
+      data = training(splits))
+```
+
+```{r}
+get_models_tbl <- function(model_names){
+  model_list <- mget(model_names, envir = caller_env())
+  
+  models_tbl <- do.call(modeltime_table, model_list)
+  
+  return(models_tbl)
+}
+
+models_tbl <- get_models_tbl(c("model_fit_ets", "model_fit_arima_boosted", "model_fit_prophet_boost", "model_fit_mars"))
+```
+
+#### Calibrate model to testing set
+
+```{r}
+calibration_tbl <- models_tbl %>%
+    modeltime_calibrate(new_data = testing(splits), quiet=FALSE)
+```
+
+#### Visualise and assess model accuracy on testing data
+
+```{r}
+calibration_tbl %>%
+  modeltime_forecast(
+    new_data = testing(splits),
+    actual_data = liquidity) %>%
+  plot_modeltime_forecast(
+    .legend_max_width = 25, 
+    .interactive = TRUE,
+    .plotly_slider = TRUE)
+```
+
+```{r}
+calibration_tbl %>%
+  modeltime_accuracy %>%
+  table_modeltime_accuracy()
+```
+
+#### Forecast and assess models
+
+-   turn into function
+
+```{r}
+refit_tbl <- calibration_tbl %>%
+    modeltime_refit(data = liquidity)
+
+forecast_tbl <- refit_tbl %>%
+  modeltime_forecast(
+    h = "4 week",
+    actual_data = liquidity,
+    keep_data = TRUE) 
+```
+
+```{r}
+forecast_tbl %>%
+  plot_modeltime_forecast(
+    .legend_max_width = 25, 
+    .interactive = TRUE,
+    .plotly_slider = TRUE)
+```
+
+```{r}
+refit_tbl %>%
+  modeltime_accuracy() %>%
+  table_modeltime_accuracy(
+    .interactive = TRUE)
+```
+
+## Shiny code considerations/reflections
+
+## References
+
+1.  Cleveland, R. B., Cleveland, W. S., McRae, J. E., & Terpenning, I. J. (1990). STL: A seasonal-trend decomposition procedure based on loess. *Journal of Official Statistics*, *6*(1), 3–33. <http://bit.ly/stl1990>
+2.  Muñoz Guerrero, Luis Eduardo; Ceballos, Yony Fernando; Trejos Rojas, Luis David (2025), “COFINFAD: Colombian Fintech Financial Analytics Dataset”, Mendeley Data, V1, doi: 10.17632/mhb4zn3258.1

@@ -36,6 +36,15 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05e.html"
           - text: "Visualising and Analysing Time-oriented Data"
             href: "Hands-on_Ex/Hands-on_Ex07/Hands-on_Ex07.html"
+          - text: "Chloropleth Mapping with R"
+            href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08a.html"
+          - text: "Visualising Geospatial Point Data"
+            href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08b.html"
+          - text: "Analytical Mapping"
+            href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08c.html"
+          - text: "Modelling, Visualising and Analysing Network Data with R"
+            href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html"
+          
       - text: "In-class Exercise"
         menu: 
         - text: "In-class Exercise 1"
