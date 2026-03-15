@@ -24,31 +24,33 @@ We have selected the *Time-Oriented Analysis of Transaction Behaviour* of the pr
 
 The following R packages will be used:
 
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| R Package  | Purpose                                                                                | Used in Shiny App? |
-+============+========================================================================================+====================+
-| tidyverse  | .Provides functions for data manipulation and visualisation                            | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| knitr      | Provides functions for publisher-quality static tables                                 | no                 |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| DT         | Provides functions for interactive, sortable and searchable tables                     | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| tsibble    | Provides a data infrastructure for tidy temporal data with wrangling tools             | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| fable      | Provides modelling framework to estimate time series data using tsibble data           | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| feasts     | Provides functions for generating cycle plots and decomposing time series data         | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| lubridate  | Provides functions to parse and manipulate dates and datetimes                         | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| tidymodels | Provides functions for modeling and machine learning in r                              | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| timetk     | Provides functions for visualising and analysing time-series data.                     | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| modeltime  | extension to tidymodels which provides a unified framework for time series forecasting | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
-| rlang      | provides functions to work with base types and core R features                         | yes                |
-+------------+----------------------------------------------------------------------------------------+--------------------+
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| R Package             | Purpose                                                                                | Used in Shiny App?    |
++=======================+========================================================================================+=======================+
+| tidyverse             | .Provides functions for data manipulation and visualisation                            | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| knitr                 | Provides functions for publisher-quality static tables                                 | no                    |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| DT                    | Provides functions for interactive, sortable and searchable tables                     | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| tsibble               | Provides a data infrastructure for tidy temporal data with wrangling tools             | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| fable                 | Provides modelling framework to estimate time series data using tsibble data           | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| feasts                | Provides functions for generating cycle plots and decomposing time series data         | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| lubridate             | Provides functions to parse and manipulate dates and datetimes                         | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| tidymodels            | Provides functions for modeling and machine learning in r                              | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| timetk                | Provides functions for visualising and analysing time-series data.                     | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| modeltime             | extension to tidymodels which provides a unified framework for time series forecasting | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| rlang                 | provides functions to work with base types and core R features                         | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| rsample               | provides functions to create training/test data sets for forecasting models            | yes                   |
++-----------------------+----------------------------------------------------------------------------------------+-----------------------+
 
 The following code chunk imports and loads the necessary packages for this exercise
 
@@ -146,6 +148,8 @@ For the various graphs to be generated, we will allow the following general filt
 | Date range filter    | dateRangeInput()                                                     | 1 Jan 2023 - 31 Dec 2023                                                         | Allow users to select the date range of transaction data to analyse                          |
 +----------------------+----------------------------------------------------------------------+----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
 
+The combination of these filters will allow users to narrow down specific segments of data to use for visualisation. (e.g., only payment transactions from customers from a particular location in the first half of 2023)
+
 ### Functions to filter data
 
 The following code chunks create functions to filter data based on the user input, making use of various data manipulation functions from **dplyr** package. This will be utilised in the shiny app to pre-filter the dataset before performing further computations/displaying the graphs.
@@ -242,7 +246,7 @@ kable(head(filtered_cust))
 
 ## Key Statistics
 
-We have chosen four key statistics to display in the dashboard from the dataset. The code chunks in the panels below create functions which take in the filtered datasets to compute the desired statistic, using various data manipulation functions from **dplyr** package. We also test each function to check it is working as expected.
+We have chosen four key statistics to display in the dashboard from the dataset to highlight the business' performance in terms of intaking new customers and retaining engagement (in the form of transactions). The code chunks in the panels below create functions which take in the filtered datasets to compute the desired statistic, using various data manipulation functions from **dplyr** package. We also test each function to check it is working as expected.
 
 :::: panel-tabset
 ### Top Transactions Month
@@ -426,7 +430,7 @@ The following code chunk creates a function which takes in the following variabl
 -   variable used to segment customers (*selected_type*)
 -   time metric to aggregate data (*time_metric*)
 
-Before creating the plot, we create a column *frame_id* as year-week objects from lubridate will be shown as a large integer instead of '2023 W01' for example. By converting the object to a string under *frame_id*, this preserves the label on the rendered graph. Then, we use ggplot to create the static plots which will make up each frame of the animated graph.
+Before creating the plot, we create a column *frame_id* as year-week objects from lubridate will be shown as a large integer instead of '2023 W01' for example. By converting the object to a string under *frame_id*, this preserves the label on the rendered graph. Then, we use **ggplot2** functions to create the static plots which will make up each frame of the animated graph.
 
 -   `text` argument is used to later pass into the tooltip of the animated plot to display the desired information upon hovering on a bubble
 -   `geom_point()` is used to create the bubble plots
@@ -469,7 +473,7 @@ get_bubble_plot <- function(data, selected_type, time_metric){
   return(result) }
 ```
 
-When rendering the graph, we will use `ggplotly()` to ensure the output is an interactive animated graph.
+When rendering the graph, we will use `ggplotly()` to ensure the output is an interactive animated graph. This will allow users to view specifics such as the exact average transaction value/count and user count of a customer segment by hovering, instead of introducing visual clutter by having to use labels for each point.
 
 ::: panel-tabset
 #### Week
@@ -635,17 +639,17 @@ ggplotly(get_cra_heatmap(cohort_data, "acquisition_channel", "All"), tooltip="te
 
 ## Seasonal Trend EDA
 
-The final section of the dashboard will explore finding seasonal trends in the transaction data. Cycle plots group all data points from a particular season together to visualise possible trends or outliers within tha season. On the other hand, STL decomposition will allow users to identify overall trends and seasonal spikes, as well as how understand how much of variation should be attributed to seasonal trends and how much is random noise. As these are two different ways of understanding changes in seasonal trends of data, we will allow users to choose which type of plot to display in the dashboard using a panel tabset.
+The final section of the dashboard will explore finding seasonal trends in the transaction data. Cycle plots group all data points from a particular season together to visualise possible trends or outliers within tha season. On the other hand, STL decomposition will allow users to identify overall trends and seasonal spikes, as well as how understand how much of variation should be attributed to seasonal trends and how much is random noise. As these are two different ways of understanding changes in seasonal trends of data, we will allow users to choose which type of plot to display in the dashboard using a panel tabset in the eventual RShiny app, to avoid overloading the user with too many graphs.
 
 ### Filter
 
-+------------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
-| Filter     | Shiny widget type | Values                 | Function                                                                                     |
-+============+===================+========================+==============================================================================================+
-| Metric     | radioButtons()    | -   Transaction Amount | Allow users to select what sort of transaction behaviour from customers they want to analyse |
-|            |                   | -   Transaction Count  |                                                                                              |
-|            |                   | -   User Count         |                                                                                              |
-+------------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
++---------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
+| Filter  | Shiny widget type | Values                 | Function                                                                                     |
++=========+===================+========================+==============================================================================================+
+| Metric  | radioButtons()    | -   Transaction Amount | Allow users to select what sort of transaction behaviour from customers they want to analyse |
+|         |                   | -   Transaction Count  |                                                                                              |
+|         |                   | -   User Count         |                                                                                              |
++---------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
 
 The following code chunk will take in the following variables as inputs to prepare the data.
 
@@ -654,7 +658,7 @@ The following code chunk will take in the following variables as inputs to prepa
 -   variable used to segment customers (selected_type)
 -   selected values of customer segments (selected_value)
 
-As part of preparing the data, we will create the three different metrics to understand transaction behaviour
+As part of preparing the data, we will create the three different metrics to measure transaction behaviour
 
 -   Transaction Amount (tx_amt)
 -   Transaction Count (tx_count)
@@ -662,7 +666,7 @@ As part of preparing the data, we will create the three different metrics to und
 
 The function below performs the following:
 
--   uses an inner join to combine the trasaction and customer data, then groups the data by the transaction date and the variable used to segment customers.
+-   uses an inner join to combine the transaction and customer data, then groups the data by the transaction date and the variable used to segment customers.
 -   For each group, we then calculate the total number of transactions (*tx_amt*), total transaction amount (*tx_count*) and number of distinct user ids (*user_count*).
 
 ```{r}
@@ -786,7 +790,7 @@ The function below performs the following:
 -   uses `model()` from **fable** package to take in tsibble class data to apply the decomposition method
 -   depending on model chosen, applies `STL()` or `classical_decomposition()` from **feasts** package to decompose the data
     -   applies the relevant inputs (speriod, swindow, twindow) to the chosen model
--   plots the resulting components with **ggplot**'s `autoplot()` function
+-   plots the resulting components with **ggplot**'s `autoplot()` function. This will conveniently create the faceted plot for each component, with scale bars to facilitate comparison between plots.
 
 ```{r}
 get_stl <- function(data, metric, modelType, speriod, swindow=7, twindow=11) {
@@ -986,7 +990,7 @@ get_cashflow_graph(liquidity_wk)
 
 ### Inflow/Outflow Breakdown
 
-Next, we will allow users to look at how different customer segments contributed to the inflows/outflows of cash through their transactions. To do so, we will create a stacked barchart for both inflow and outflow to visualise the composition inflow/outflows from each segment.
+Next, we will allow users to look at how different customer segments contributed to the inflows/outflows of cash through their transactions. To do so, we will create a stacked barchart for both inflow and outflow to visualise the composition inflow/outflows from each segment. We will also allow toggling of the bar chart to present the data in absolute values, or as percentage contribution. Absolute values will allow the users to appreciate the disparities in total inflow and total outflows, whereas the percentage contribution view will allow users to more easily compare each segments contribution to inflows/outflows and identify any skewed distributions (eg a customer group which drives inflows but contributes little to the outflow).
 
 #### Filters
 
@@ -1252,7 +1256,7 @@ Next, the models will be built and fitted on the training data.
 The following function then adds the user-selected models (model_names) to the table of models to be used for forecasting as follows:
 
 -   As the models are created in the R environment and not within the function, we use `mget()` from base R, and set `envir = caller_env()` (using `caller_env()` from the **rlang** package). This will direct `mget()` to search the global workspace (where the function is called) for objects with names matching the values in the *model_names* character vector and return the objects as a list.
--   `do.call()` then unpacks the list and adds each model object as individual arguments into the `modeltime_table()` function from **modeltime** package.
+-   `do.call()` then unpacks the list and adds each model object as individual arguments into the `modeltime_table()` function from **modeltime** package. This creates the model table that enables us to easily manage multiple models and compare their accuracy metrics.
 
 ```{r}
 #| warning: false
@@ -1275,7 +1279,7 @@ The table of models is then passed to `modeltime_calibrate()` from **modeltime**
 
 ```{r}
 calibration_tbl <- models_tbl %>%
-    modeltime_calibrate(new_data = testing(splits), quiet=FALSE)
+    modeltime_calibrate(new_data = testing(splits), quiet=TRUE)
 ```
 
 #### Visualise and assess model accuracy on testing data
@@ -1291,6 +1295,7 @@ The following code chunk performs the following:
 -   uses `plot_modeltime_forecast()` from **modeltime** package to plot the data from the dataframe from the previous step into a line chart.
 
     -   `.interactive_TRUE` and `.plotly_slider=TRUE` converts the plot to a interactive **plotly** object, and adds a range slider to the bottom of the graph allowing users to select specific time periods to view in the plot area, enabling 'zoom in' functionality.
+    -   **timetk** automatically plots the confidence intervals around the forecasted values of each model, and enables filtering of the graph by interacting with the legend to hide/show specific model results
 
 ```{r}
 calibration_tbl %>%
