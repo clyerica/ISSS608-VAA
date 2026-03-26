@@ -24,33 +24,20 @@ We have selected the *Time-Oriented Analysis of Transaction Behaviour* of the pr
 
 The following R packages will be used:
 
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| R Package             | Purpose                                                                                | Used in Shiny App?    |
-+=======================+========================================================================================+=======================+
-| tidyverse             | .Provides functions for data manipulation and visualisation                            | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| knitr                 | Provides functions for publisher-quality static tables                                 | no                    |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| DT                    | Provides functions for interactive, sortable and searchable tables                     | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| tsibble               | Provides a data infrastructure for tidy temporal data with wrangling tools             | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| fable                 | Provides modelling framework to estimate time series data using tsibble data           | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| feasts                | Provides functions for generating cycle plots and decomposing time series data         | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| lubridate             | Provides functions to parse and manipulate dates and datetimes                         | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| tidymodels            | Provides functions for modeling and machine learning in r                              | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| timetk                | Provides functions for visualising and analysing time-series data.                     | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| modeltime             | extension to tidymodels which provides a unified framework for time series forecasting | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| rlang                 | provides functions to work with base types and core R features                         | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
-| rsample               | provides functions to create training/test data sets for forecasting models            | yes                   |
-+-----------------------+----------------------------------------------------------------------------------------+-----------------------+
+| R Package | Purpose | Used in Shiny App? |
+|----|----|----|
+| tidyverse | .Provides functions for data manipulation and visualisation | yes |
+| knitr | Provides functions for publisher-quality static tables | no |
+| DT | Provides functions for interactive, sortable and searchable tables | yes |
+| tsibble | Provides a data infrastructure for tidy temporal data with wrangling tools | yes |
+| fable | Provides modelling framework to estimate time series data using tsibble data | yes |
+| feasts | Provides functions for generating cycle plots and decomposing time series data | yes |
+| lubridate | Provides functions to parse and manipulate dates and datetimes | yes |
+| tidymodels | Provides functions for modeling and machine learning in r | yes |
+| timetk | Provides functions for visualising and analysing time-series data. | yes |
+| modeltime | extension to tidymodels which provides a unified framework for time series forecasting | yes |
+| rlang | provides functions to work with base types and core R features | yes |
+| rsample | provides functions to create training/test data sets for forecasting models | yes |
 
 The following code chunk imports and loads the necessary packages for this exercise
 
@@ -643,13 +630,13 @@ The final section of the dashboard will explore finding seasonal trends in the t
 
 ### Filter
 
-+---------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
-| Filter  | Shiny widget type | Values                 | Function                                                                                     |
-+=========+===================+========================+==============================================================================================+
-| Metric  | radioButtons()    | -   Transaction Amount | Allow users to select what sort of transaction behaviour from customers they want to analyse |
-|         |                   | -   Transaction Count  |                                                                                              |
-|         |                   | -   User Count         |                                                                                              |
-+---------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
++--------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
+| Filter | Shiny widget type | Values                 | Function                                                                                     |
++========+===================+========================+==============================================================================================+
+| Metric | radioButtons()    | -   Transaction Amount | Allow users to select what sort of transaction behaviour from customers they want to analyse |
+|        |                   | -   Transaction Count  |                                                                                              |
+|        |                   | -   User Count         |                                                                                              |
++--------+-------------------+------------------------+----------------------------------------------------------------------------------------------+
 
 The following code chunk will take in the following variables as inputs to prepare the data.
 
